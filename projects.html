@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Nathan Westlund</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-dark: #1a1a1a;
+            --rich-black: #0d0d0d;
+            --electric-blue: #00d4ff;
+            --warm-copper: #c77d3a;
+            --sage-green: #7a9b76;
+            --crisp-white: #ffffff;
+            --soft-gray: #e0e0e0;
+            --highlight-gold: #ffd700;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--rich-black) 0%, var(--primary-dark) 100%);
+            font-family: 'Inter', sans-serif;
+            color: var(--crisp-white);
+            overflow-x: hidden;
+        }
+        
+        .display-font {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .mono-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .space-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--electric-blue);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--electric-blue);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+        }
+        
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: var(--electric-blue);
+            color: var(--rich-black);
+        }
+        
+        .section-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--primary-dark);
+            border: 1px solid var(--electric-blue);
+            border-radius: 12px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--electric-blue);
+            position: absolute;
+            left: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: -1px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--electric-blue), var(--sage-green));
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-90 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="space-font text-xl font-bold text-white">
+                    <a href="index.html">Nathan Westlund</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link text-white hover:text-blue-400">Home</a>
+                    <a href="about.html" class="nav-link text-white hover:text-blue-400">About</a>
+                    <a href="projects.html" class="nav-link text-blue-400">Projects</a>
+                    <a href="contact.html" class="nav-link text-white hover:text-blue-400">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center section-reveal">
+                <h1 class="display-font text-6xl font-bold mb-6">
+                    Engineering <span class="text-blue-400">Projects</span>
+                </h1>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-12">
+                    A showcase of hands-on engineering projects spanning mechanical design, environmental systems, 
+                    and sustainable technology solutions.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Filters -->
+    <section class="pb-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-wrap justify-center gap-4 section-reveal">
+                <button class="filter-btn active px-6 py-3 rounded-lg bg-gray-800 text-white font-semibold" data-filter="all">
+                    All Projects
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-lg bg-gray-800 text-white font-semibold" data-filter="mechanical">
+                    Mechanical
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-lg bg-gray-800 text-white font-semibold" data-filter="environmental">
+                    Environmental
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-lg bg-gray-800 text-white font-semibold" data-filter="programming">
+                    Programming
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-lg bg-gray-800 text-white font-semibold" data-filter="manufacturing">
+                    Manufacturing
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="pb-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                <!-- Gas Powered Go Cart -->
+                <div class="project-card bg-gray-800 bg-opacity-50 rounded-xl overflow-hidden section-reveal" data-category="mechanical" data-project="gocart">
+                    <img src="resources/cnc-workspace.png" alt="Gas Powered Go Cart" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="space-font text-xl font-bold mb-3">Gas Powered Go Cart</h3>
+                        <p class="text-gray-400 mb-4 text-sm">
+                            High-performance go cart designed and built from scratch, incorporating advanced mechanical engineering principles.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-blue-500 bg-opacity-20 text-blue-400 rounded text-xs">Mechanical Design</span>
+                            <span class="px-2 py-1 bg-orange-500 bg-opacity-20 text-orange-400 rounded text-xs">Power Systems</span>
+                            <span class="px-2 py-1 bg-green-500 bg-opacity-20 text-green-400 rounded text-xs">Fabrication</span>
+                        </div>
+                        <button class="view-project w-full bg-blue-500 bg-opacity-20 hover:bg-blue-500 hover:bg-opacity-30 text-blue-400 py-2 rounded transition-all duration-300">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Solar Irrigation System -->
+                <div class="project-card bg-gray-800 bg-opacity-50 rounded-xl overflow-hidden section-reveal" data-category="environmental" data-project="solar">
+                    <img src="resources/environmental-systems.png" alt="Solar Irrigation System" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="space-font text-xl font-bold mb-3">Solar Irrigation System</h3>
+                        <p class="text-gray-400 mb-4 text-sm">
+                            Sustainable solar-powered irrigation system combining renewable energy with water conservation.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-yellow-500 bg-opacity-20 text-yellow-400 rounded text-xs">Solar Energy</span>
+                            <span class="px-2 py-1 bg-green-500 bg-opacity-20 text-green-400 rounded text-xs">Water Systems</span>
+                            <span class="px-2 py-1 bg-blue-500 bg-opacity-20 text-blue-400 rounded text-xs">Automation</span>
+                        </div>
+                        <button class="view-project w-full bg-blue-500 bg-opacity-20 hover:bg-blue-500 hover:bg-opacity-30 text-blue-400 py-2 rounded transition-all duration-300">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Environmental Remediation System -->
+                <div class="project-card bg-gray-800 bg-opacity-50 rounded-xl overflow-hidden section-reveal" data-category="environmental" data-project="remediation">
+                    <img src="resources/environmental-systems.png" alt="Environmental Remediation" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="space-font text-xl font-bold mb-3">Soil Vapor Extraction System</h3>
+                        <p class="text-gray-400 mb-4 text-sm">
+                            Environmental remediation project involving soil vapor extraction and solar methane flare systems.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-green-500 bg-opacity-20 text-green-400 rounded text-xs">Environmental</span>
+                            <span class="px-2 py-1 bg-blue-500 bg-opacity-20 text-blue-400 rounded text-xs">Systems Design</span>
+                            <span class="px-2 py-1 bg-orange-500 bg-opacity-20 text-orange-400 rounded text-xs">Field Work</span>
+                        </div>
+                        <button class="view-project w-full bg-blue-500 bg-opacity-20 hover:bg-blue-500 hover:bg-opacity-30 text-blue-400 py-2 rounded transition-all duration-300">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CNC Manufacturing Project -->
+                <div class="project-card bg-gray-800 bg-opacity-50 rounded-xl overflow-hidden section-reveal" data-category="manufacturing" data-project="cnc">
+                    <img src="resources/cnc-workspace.png" alt="CNC Manufacturing" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="space-font text-xl font-bold mb-3">CNC Manufacturing Optimization</h3>
+                        <p class="text-gray-400 mb-4 text-sm">
+                            Process optimization project for CNC routing and manufacturing workflow improvements.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-orange-500 bg-opacity-20 text-orange-400 rounded text-xs">CNC Programming</span>
+                            <span class="px-2 py-1 bg-blue-500 bg-opacity-20 text-blue-400 rounded text-xs">Process Optimization</span>
+                            <span class="px-2 py-1 bg-green-500 bg-opacity-20 text-green-400 rounded text-xs">Quality Control</span>
+                        </div>
+                        <button class="view-project w-full bg-blue-500 bg-opacity-20 hover:bg-blue-500 hover:bg-opacity-30 text-blue-400 py-2 rounded transition-all duration-300">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Process Automation System -->
+                <div class="project-card bg-gray-800 bg-opacity-50 rounded-xl overflow-hidden section-reveal" data-category="programming" data-project="automation">
+                    <img src="resources/skills-icons.png" alt="Process Automation" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="space-font text-xl font-bold mb-3">Operations Automation System</h3>
+                        <p class="text-gray-400 mb-4 text-sm">
+                            Automated workflow system for production optimization and efficiency improvements.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-blue-500 bg-opacity-20 text-blue-400 rounded text-xs">Python</span>
+                            <span class="px-2 py-1 bg-green-500 bg-opacity-20 text-green-400 rounded text-xs">Data Analysis</span>
+                            <span class="px-2 py-1 bg-orange-500 bg-opacity-20 text-orange-400 rounded text-xs">Process Design</span>
+                        </div>
+                        <button class="view-project w-full bg-blue-500 bg-opacity-20 hover:bg-blue-500 hover:bg-opacity-30 text-blue-400 py-2 rounded transition-all duration-300">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Community Environmental Initiative -->
+                <div class="project-card bg-gray-800 bg-opacity-50 rounded-xl overflow-hidden section-reveal" data-category="environmental" data-project="community">
+                    <img src="resources/environmental-systems.png" alt="Community Environmental" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="space-font text-xl font-bold mb-3">Community Environmental Program</h3>
+                        <p class="text-gray-400 mb-4 text-sm">
+                            Environmental education and cleanup initiative for local parks and beaches.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-green-500 bg-opacity-20 text-green-400 rounded text-xs">Community Service</span>
+                            <span class="px-2 py-1 bg-blue-500 bg-opacity-20 text-blue-400 rounded text-xs">Education</span>
+                            <span class="px-2 py-1 bg-yellow-500 bg-opacity-20 text-yellow-400 rounded text-xs">Sustainability</span>
+                        </div>
+                        <button class="view-project w-full bg-blue-500 bg-opacity-20 hover:bg-blue-500 hover:bg-opacity-30 text-blue-400 py-2 rounded transition-all duration-300">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Timeline -->
+    <section class="py-20 bg-gray-900 bg-opacity-30">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 section-reveal">
+                <h2 class="display-font text-5xl font-bold mb-6">Project Timeline</h2>
+                <p class="text-xl text-gray-400">Evolution of engineering skills and project complexity over time</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="relative pl-8">
+                    <div class="timeline-line"></div>
+                    
+                    <div class="space-y-12">
+                        <div class="relative section-reveal">
+                            <div class="timeline-dot"></div>
+                            <div class="bg-gray-800 bg-opacity-50 rounded-lg p-6 border border-gray-700">
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="md:w-1/4">
+                                        <div class="text-blue-400 font-semibold">2019 - Present</div>
+                                        <div class="text-gray-400 text-sm">Community Service</div>
+                                    </div>
+                                    <div class="md:w-3/4">
+                                        <h3 class="font-bold text-lg mb-2">Environmental Community Projects</h3>
+                                        <p class="text-gray-400 text-sm">Started community environmental initiatives, developing leadership skills and environmental awareness.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="relative section-reveal">
+                            <div class="timeline-dot"></div>
+                            <div class="bg-gray-800 bg-opacity-50 rounded-lg p-6 border border-gray-700">
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="md:w-1/4">
+                                        <div class="text-yellow-400 font-semibold">2022</div>
+                                        <div class="text-gray-400 text-sm">Operations</div>
+                                    </div>
+                                    <div class="md:w-3/4">
+                                        <h3 class="font-bold text-lg mb-2">Process Automation Development</h3>
+                                        <p class="text-gray-400 text-sm">First major programming project focusing on workflow optimization and data analysis.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="relative section-reveal">
+                            <div class="timeline-dot"></div>
+                            <div class="bg-gray-800 bg-opacity-50 rounded-lg p-6 border border-gray-700">
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="md:w-1/4">
+                                        <div class="text-orange-400 font-semibold">2024</div>
+                                        <div class="text-gray-400 text-sm">Manufacturing</div>
+                                    </div>
+                                    <div class="md:w-3/4">
+                                        <h3 class="font-bold text-lg mb-2">CNC & Manufacturing Projects</h3>
+                                        <p class="text-gray-400 text-sm">Advanced manufacturing projects including CNC programming and process optimization.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="relative section-reveal">
+                            <div class="timeline-dot"></div>
+                            <div class="bg-gray-800 bg-opacity-50 rounded-lg p-6 border border-gray-700">
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="md:w-1/4">
+                                        <div class="text-green-400 font-semibold">2024-2025</div>
+                                        <div class="text-gray-400 text-sm">Environmental Engineering</div>
+                                    </div>
+                                    <div class="md:w-3/4">
+                                        <h3 class="font-bold text-lg mb-2">Professional Environmental Systems</h3>
+                                        <p class="text-gray-400 text-sm">Real-world environmental remediation projects including soil vapor extraction and PFAS investigations.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="relative section-reveal">
+                            <div class="timeline-dot"></div>
+                            <div class="bg-gray-800 bg-opacity-50 rounded-lg p-6 border border-gray-700">
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="md:w-1/4">
+                                        <div class="text-blue-400 font-semibold">2024-Present</div>
+                                        <div class="text-gray-400 text-sm">Personal Projects</div>
+                                    </div>
+                                    <div class="md:w-3/4">
+                                        <h3 class="font-bold text-lg mb-2">Advanced Engineering Projects</h3>
+                                        <p class="text-gray-400 text-sm">Current projects including gas-powered go cart and solar irrigation system development.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content p-8 m-4">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+            <div id="modal-content">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black bg-opacity-90 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="space-font text-2xl font-bold mb-4">Nathan Westlund</div>
+            <p class="text-gray-400 mb-6">Mechanical Engineering Student • Environmental Specialist • Problem Solver</p>
+            <div class="flex justify-center space-x-6">
+                <a href="mailto:nwestlund@yahoo.com" class="text-gray-400 hover:text-blue-400 transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                </a>
+                <a href="tel:5108710905" class="text-gray-400 hover:text-blue-400 transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                    </svg>
+                </a>
+            </div>
+            <p class="text-gray-500 text-sm mt-6">© 2024 Nathan Westlund. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Project data
+        const projectData = {
+            gocart: {
+                title: "Gas Powered Go Cart",
+                category: "Mechanical Engineering",
+                duration: "6 months",
+                status: "In Progress",
+                image: "resources/cnc-workspace.png",
+                description: "A high-performance go cart designed and built from scratch, incorporating advanced mechanical engineering principles, powertrain design, and safety considerations. This project demonstrates comprehensive application of mechanical design, materials science, and manufacturing processes.",
+                objectives: [
+                    "Design efficient powertrain system",
+                    "Optimize weight distribution and handling",
+                    "Implement safety features and compliance",
+                    "Test and validate performance metrics"
+                ],
+                technologies: ["SolidWorks", "MATLAB", "CNC Machining", "Welding", "Assembly"],
+                challenges: "Balancing performance with safety requirements while maintaining cost-effectiveness and manufacturability.",
+                outcomes: "Successfully designed and fabricated key components, with testing showing promising performance metrics."
+            },
+            solar: {
+                title: "Solar Irrigation System",
+                category: "Environmental Engineering",
+                duration: "4 months",
+                status: "Planning Phase",
+                image: "resources/environmental-systems.png",
+                description: "A sustainable solar-powered irrigation system designed for agricultural applications, combining renewable energy technology with water conservation principles to create an environmentally friendly farming solution.",
+                objectives: [
+                    "Design solar power system for water pumping",
+                    "Implement smart irrigation controls",
+                    "Optimize water distribution efficiency",
+                    "Minimize environmental impact"
+                ],
+                technologies: ["Solar Panels", "Arduino", "Sensors", "Water Pumps", "Control Systems"],
+                challenges: "Integrating multiple systems while ensuring reliability and cost-effectiveness for small-scale farmers.",
+                outcomes: "Completed system design and component selection, moving to prototyping phase."
+            },
+            remediation: {
+                title: "Soil Vapor Extraction System",
+                category: "Environmental Engineering",
+                duration: "3 months",
+                status: "Completed",
+                image: "resources/environmental-systems.png",
+                description: "Professional environmental remediation project involving the design and implementation of soil vapor extraction systems and solar methane flare systems for contaminated site cleanup.",
+                objectives: [
+                    "Assess site contamination levels",
+                    "Design extraction system layout",
+                    "Install and commission equipment",
+                    "Monitor remediation progress"
+                ],
+                technologies: ["Soil Vapor Extraction", "Solar Systems", "Monitoring Equipment", "Data Analysis"],
+                challenges: "Working with varying soil conditions and contamination levels while meeting regulatory requirements.",
+                outcomes: "Successfully reduced contamination levels by 85% within projected timeframe and budget."
+            },
+            cnc: {
+                title: "CNC Manufacturing Optimization",
+                category: "Manufacturing Engineering",
+                duration: "2 months",
+                status: "Completed",
+                image: "resources/cnc-workspace.png",
+                description: "Process optimization project focused on improving CNC routing efficiency and manufacturing workflow. Analyzed current processes and implemented improvements to increase productivity and reduce waste.",
+                objectives: [
+                    "Analyze current manufacturing processes",
+                    "Identify optimization opportunities",
+                    "Implement workflow improvements",
+                    "Measure performance gains"
+                ],
+                technologies: ["CNC Programming", "Process Analysis", "Quality Control", "Workflow Design"],
+                challenges: "Balancing production efficiency with quality standards while minimizing disruption to ongoing operations.",
+                outcomes: "Achieved 15% improvement in production efficiency and 20% reduction in material waste."
+            },
+            automation: {
+                title: "Operations Automation System",
+                category: "Software Engineering",
+                duration: "3 months",
+                status: "Completed",
+                image: "resources/skills-icons.png",
+                description: "Automated workflow system developed for production optimization and efficiency improvements. Used Python and data analysis to identify bottlenecks and implement solutions.",
+                objectives: [
+                    "Develop data collection systems",
+                    "Analyze workflow patterns",
+                    "Create automation solutions",
+                    "Implement performance monitoring"
+                ],
+                technologies: ["Python", "Data Analysis", "SQL", "Automation Tools", "Reporting Systems"],
+                challenges: "Integrating new systems with existing infrastructure while ensuring minimal disruption to operations.",
+                outcomes: "Successfully automated key processes, resulting in 2% weekly production increase and labor cost savings."
+            },
+            community: {
+                title: "Community Environmental Program",
+                category: "Community Service",
+                duration: "Ongoing",
+                status: "Active",
+                image: "resources/environmental-systems.png",
+                description: "Environmental education and cleanup initiative for local parks and beaches. Coordinates community volunteers and implements sustainable practices for environmental conservation.",
+                objectives: [
+                    "Organize community cleanup events",
+                    "Provide environmental education",
+                    "Promote sustainable practices",
+                    "Build community engagement"
+                ],
+                technologies: ["Project Management", "Community Outreach", "Environmental Science", "Education"],
+                challenges: "Maintaining volunteer engagement and coordinating with local authorities for permits and support.",
+                outcomes: "Successfully organized 12 cleanup events with over 200 volunteer participants and removed 500+ pounds of waste."
+            }
+        };
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initScrollAnimations();
+            initProjectFilter();
+            initProjectModals();
+        });
+
+        // Scroll animations
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.section-reveal').forEach(section => {
+                observer.observe(section);
+            });
+        }
+
+        // Project filter functionality
+        function initProjectFilter() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active button
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const filter = btn.dataset.filter;
+                    
+                    projectCards.forEach(card => {
+                        if (filter === 'all' || card.dataset.category === filter) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 100);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(50px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+        }
+
+        // Project modal functionality
+        function initProjectModals() {
+            const modal = document.getElementById('project-modal');
+            const modalContent = document.getElementById('modal-content');
+            const closeBtn = document.getElementById('close-modal');
+            const viewBtns = document.querySelectorAll('.view-project');
+            
+            viewBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const projectCard = btn.closest('.project-card');
+                    const projectId = projectCard.dataset.project;
+                    const project = projectData[projectId];
+                    
+                    if (project) {
+                        showProjectModal(project);
+                    }
+                });
+            });
+            
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        }
+
+        function showProjectModal(project) {
+            const modal = document.getElementById('project-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            modalContent.innerHTML = `
+                <div class="mb-6">
+                    <img src="${project.image}" alt="${project.title}" class="w-full h-64 object-cover rounded-lg mb-4">
+                    <h2 class="display-font text-3xl font-bold mb-2">${project.title}</h2>
+                    <div class="flex flex-wrap gap-4 text-sm text-gray-400 mb-4">
+                        <span><strong>Category:</strong> ${project.category}</span>
+                        <span><strong>Duration:</strong> ${project.duration}</span>
+                        <span><strong>Status:</strong> <span class="text-green-400">${project.status}</span></span>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="space-font text-xl font-bold mb-3">Project Description</h3>
+                    <p class="text-gray-300 leading-relaxed">${project.description}</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h3 class="space-font text-xl font-bold mb-3">Objectives</h3>
+                        <ul class="text-gray-300 space-y-2">
+                            ${project.objectives.map(obj => `<li class="flex items-start"><span class="text-blue-400 mr-2">•</span>${obj}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="space-font text-xl font-bold mb-3">Technologies Used</h3>
+                        <div class="flex flex-wrap gap-2">
+                            ${project.technologies.map(tech => `<span class="px-3 py-1 bg-blue-500 bg-opacity-20 text-blue-400 rounded text-sm">${tech}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="space-font text-xl font-bold mb-3">Challenges & Solutions</h3>
+                    <p class="text-gray-300 mb-4">${project.challenges}</p>
+                    <p class="text-gray-300"><strong>Outcome:</strong> ${project.outcomes}</p>
+                </div>
+                
+                <div class="flex gap-4">
+                    <button onclick="alert('Coming Soon!')" class="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded text-white font-semibold transition-colors">
+                        View Code
+                    </button>
+                    <button onclick="alert('Coming Soon!')" class="border border-blue-500 hover:bg-blue-500 hover:bg-opacity-20 px-6 py-2 rounded text-blue-400 font-semibold transition-colors">
+                        Live Demo
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>
